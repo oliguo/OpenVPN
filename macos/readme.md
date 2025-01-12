@@ -271,6 +271,10 @@
   persist-tun
   status openvpn-status.log
   verb 3
+  max-clients 30
+  tcp-nodelay
+  comp-lzo
+  push "comp-lzo"
   ```
 
 
