@@ -356,6 +356,61 @@
                                 2       1       0.00    0.00    552.76  1105.51
   ```
   
+# Optional - SSH Reverse Tunnel
+  You can rent a external server from AWS, digital ocean etc, and we go to set by SSH proxy way to do.
+  Go to the server and gen ssh key and press Enter to accept defaults unless you need a custom key location or passphrase.
+  ```
+  $ ssh-keygen
+  ```
+  Go back local macbook which installed the OpenVPN, and copy the public key of the server for passwordless login.  
+  ```
+  ssh-copy-id non-root-user@your_server_ip
+  ```
+  Try the ssh command on the local macbook with the custom external port you like on the server. Ctrl+C to stop and exit.
+  ```
+  ssh -N -R 0.0.0.0:external_port:localhost:1194 non-root-user@your_server_ip -p 22
+  ```
+  It doesn't output something, just running on the frontground.
+  We go to the external server to check the connection and whether the custom port is listening.
+  ```
+  netstat -tuln | grep external_port
+  tcp        0      0 0.0.0.0:external_port            0.0.0.0:*               LISTEN     
+  tcp6       0      0 :::external_port                 :::*                    LISTEN 
+  ```
+  If it is not showing like above, we go to change the ssh config setting and set `GatewayPorts` to `yes`.
+  ```
+  sudo nano /etc/ssh/sshd_config
+  ```
+  Save and restart by the command.
+  ```
+  sudo systemctl restart sshd
+  ```
+  Check if a firewall is active (e.g., UFW on Ubuntu):
+  ```
+  sudo ufw status
+  ```
+  If it’s enabled and doesn’t list `external_port`, allow it:
+  ```
+  sudo ufw allow external_port/tcp
+  ```
+  If you’re using iptables instead:
+  ```
+  sudo iptables -L -n
+  ```
+  Add a rule if needed:
+  ```
+  sudo iptables -A INPUT -p tcp --dport external_port -j ACCEPT
+  ```
+  Verify the port is open from outside using a tool like nc (netcat) from another machine:
+  ```
+  nc -zv vps_ip 7022
+  ```
+  If it says “connection succeeded,” the port is reachable.
+
+
+
+
+
 
   
   
