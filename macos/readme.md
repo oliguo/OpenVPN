@@ -311,7 +311,7 @@
   
 # Start the OpenVPN 
   ```
-  $ sudo /usr/local/opt/openvpn/sbin/openvpn --config /usr/local/etc/openvpn/server.conf
+  $ sudo /usr/local/opt/openvpn/sbin/openvpn --duplicate-cn --config /usr/local/etc/openvpn/server.conf
   ```
   ```
   2025-01-11 23:38:30 WARNING: --topology net30 support for server configs with IPv4 pools will be removed in a future release. Please migrate to --topology subnet as soon as possible.
