@@ -45,7 +45,8 @@
   $ sudo chmod +x enable-nat.sh
   $ sudo ./enable-nat.sh
   ```
-  
+## Important Note: If you rebooted and remember to run ./enable-nat.sh again.
+
 # Init Easy RSA for certs files
 
 ## init-pki
